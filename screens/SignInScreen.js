@@ -20,7 +20,7 @@ const SignInScreen = ({ navigation }) => {
         </Pressable>
         <Pressable onPress={signUp} style={{ marginTop: 10 }}>
           <Text style={{ textAlign: "right", color: "steelblue" }}>
-            Sign up
+            Create account
           </Text>
         </Pressable>
       </View>

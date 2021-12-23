@@ -1,16 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
+import { auth } from "../firebase";
 
 const SignInScreen = ({ navigation }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const signUp = () => {
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then((userCredentials) => {
+        const user = userCredentials.user;
+        console.log(user.email);
+      })
+      .catch((error) => console.log(error.message));
     navigation.navigate("SignIn");
   };
   return (
     <View style={styles.container}>
       <View style={{ alignSelf: "stretch", paddingHorizontal: 30 }}>
-        <TextInput style={styles.input} placeholder="Email" />
-        <TextInput style={styles.input} placeholder="Password" />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          value={email}
+          onChangeText={(text) => setEmail(text)}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          value={password}
+          onChangeText={(text) => setPassword(text)}
+        />
         <Pressable onPress={signUp} style={styles.signUpBtn}>
           <Text style={{ textAlign: "center" }}>Sign up</Text>
         </Pressable>

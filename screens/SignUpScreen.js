@@ -13,9 +13,9 @@ const SignInScreen = ({ navigation }) => {
       .then((userCredentials) => {
         const user = userCredentials.user;
         console.log(user.email);
+        navigation.navigate("SignIn");
       })
       .catch((error) => console.log(error.message));
-    navigation.navigate("SignIn");
   };
   return (
     <View style={styles.container}>

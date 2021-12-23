@@ -11,6 +11,7 @@ import {
 import List from "../components/List";
 import { Icon } from "react-native-elements";
 import * as Haptics from "expo-haptics";
+import { auth } from "../firebase";
 
 const styles = StyleSheet.create({
   containerLight: {
@@ -28,11 +29,12 @@ const styles = StyleSheet.create({
   topBar: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
   },
   titleLight: {
     marginLeft: 5,
     marginBottom: 8,
-    fontSize: 28,
+    fontSize: 20,
     fontWeight: "bold",
     color: "black",
   },
@@ -147,7 +149,7 @@ const ToDo = () => {
       <View style={{ marginTop: 100 }}>
         <View style={styles.topBar}>
           <Text style={isDark ? styles.titleDark : styles.titleLight}>
-            Tasks
+            Welcome {auth.currentUser?.email}
           </Text>
           <View style={{ flexDirection: "row" }}>
             <Switch

@@ -22,7 +22,10 @@ function App() {
           component={SignUpScreen}
         />
         <Stack.Screen
-          options={{ headerShown: false, gestureEnabled: false }}
+          options={{
+            headerShown: false,
+            gestureEnabled: false,
+          }}
           name="Todo"
           component={TodoScreen}
         />

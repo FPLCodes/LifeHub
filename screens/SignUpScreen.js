@@ -24,6 +24,7 @@ const SignInScreen = ({ navigation }) => {
           style={styles.input}
           placeholder="Email"
           value={email}
+          keyboardType={"email-address"}
           onChangeText={(text) => setEmail(text)}
         />
         <TextInput

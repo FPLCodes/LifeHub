@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const ToDo = () => {
+const ToDo = ({ navigation }) => {
   const [text, onChangeText] = useState("");
   const [data, setData] = useState([
     {
@@ -135,12 +135,15 @@ const ToDo = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
   };
 
-  const removeItem = (id) => {
-    setData(data.filter((item) => item.id !== id));
-  };
-
   const toggleSwitch = () => {
     setDark((previousState) => !previousState);
+  };
+
+  const signOut = () => {
+    auth.signOut().then(() => {
+      navigation.replace("SignIn");
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    });
   };
 
   return (
@@ -180,6 +183,12 @@ const ToDo = () => {
         </View>
       </View>
       <List tasks={data} isDark={isDark} />
+      <Pressable
+        onPress={signOut}
+        style={{ padding: 15, backgroundColor: "silver", marginTop: 10 }}
+      >
+        <Text style={{ textAlign: "center" }}>Sign out</Text>
+      </Pressable>
     </View>
   );
 };

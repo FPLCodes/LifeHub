@@ -287,12 +287,11 @@ const List = (props) => {
           </View>
         </Modal>
         <ScrollView
-          style={{}}
           contentContainerStyle={{ flexGrow: 1 }}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         >
-          <View style={{}}>
+          <View>
             {data.map((task) => {
               if (!task.completed)
                 return (

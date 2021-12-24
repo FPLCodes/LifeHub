@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   titleDark: {
     marginLeft: 5,
     marginBottom: 8,
-    fontSize: 28,
+    fontSize: 20,
     fontWeight: "bold",
     color: "white",
   },

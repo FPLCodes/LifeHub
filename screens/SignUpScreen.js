@@ -30,6 +30,7 @@ const SignInScreen = ({ navigation }) => {
           style={styles.input}
           placeholder="Password"
           value={password}
+          secureTextEntry={true}
           onChangeText={(text) => setPassword(text)}
         />
         <Pressable onPress={signUp} style={styles.signUpBtn}>

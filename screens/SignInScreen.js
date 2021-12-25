@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View, StatusBar } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { auth } from "../firebase";
 import * as Haptics from "expo-haptics";
@@ -44,35 +44,46 @@ const SignInScreen = ({ navigation }) => {
   };
   return (
     <View style={styles.container}>
-      <View style={{ alignSelf: "stretch", paddingHorizontal: 30 }}>
+      <StatusBar barStyle={"dark-content"} />
+      <View style={{ flex: 1, marginTop: 150 }}>
+        <View style={{ flexDirection: "row" }}>
+          <Text style={{ fontSize: 60, fontWeight: "bold" }}>Life</Text>
+          <Text style={styles.HUB}>Hub</Text>
+        </View>
+      </View>
+      <View style={{ flex: 3, alignSelf: "stretch", paddingHorizontal: 40 }}>
+        <Text>Email</Text>
         <TextInput
           style={error === "email" ? styles.invalidInput : styles.input}
-          placeholder="Email"
+          placeholder="johnsmith123@gmail.com"
           value={email}
           keyboardType={"email-address"}
           onChangeText={(text) => setEmail(text)}
         />
         {error === "email" && (
-          <Text style={{ marginBottom: 5 }}>Invalid email</Text>
+          <Text style={{ marginBottom: 5, color: "tomato" }}>
+            Invalid email
+          </Text>
         )}
+        <Text style={{ marginTop: 10 }}>Password</Text>
         <TextInput
           style={error === "password" ? styles.invalidInput : styles.input}
-          placeholder="Password"
+          placeholder="********"
           value={password}
           secureTextEntry={true}
           onChangeText={(text) => setPassword(text)}
         />
         {error === "password" && (
-          <Text style={{ marginBottom: 5 }}>Incorrect password</Text>
+          <Text style={{ marginBottom: 5, color: "tomato" }}>
+            Incorrect password
+          </Text>
         )}
         <Pressable onPress={signIn} style={styles.signInBtn}>
-          <Text style={{ textAlign: "center" }}>Sign in</Text>
+          <Text style={{ textAlign: "center", fontSize: 16, color: "white" }}>
+            Sign in
+          </Text>
         </Pressable>
-        <Pressable
-          onPress={signUp}
-          style={{ marginTop: 10 }}
-          disabled={!email || !password}
-        >
+        <Pressable onPress={signUp} style={{ marginTop: 10 }}>
           <Text style={{ textAlign: "right", color: "steelblue" }}>
             Create account
           </Text>
@@ -91,20 +102,34 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   signInBtn: {
-    padding: 15,
-    backgroundColor: "silver",
-    marginTop: 10,
+    paddingVertical: 15,
+    backgroundColor: "royalblue",
+    marginTop: 15,
+    borderRadius: 6,
   },
   input: {
     backgroundColor: "silver",
     padding: 10,
     marginVertical: 5,
+    paddingVertical: 15,
+    borderRadius: 6,
   },
   invalidInput: {
     backgroundColor: "silver",
     padding: 10,
     marginVertical: 5,
-    borderColor: "red",
+    paddingVertical: 15,
+    borderRadius: 6,
+    borderColor: "tomato",
     borderWidth: 1,
+  },
+  HUB: {
+    fontSize: 60,
+    fontWeight: "bold",
+    color: "skyblue",
+    borderColor: "black",
+    textShadowColor: "steelblue",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
   },
 });

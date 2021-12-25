@@ -176,9 +176,7 @@ const ToDo = ({ navigation }) => {
             />
           </View>
           <Pressable onPress={addTask} style={styles.addBtn}>
-            <Icon type="feather" name="plus" size={26}>
-              +
-            </Icon>
+            <Icon type="feather" name="plus" size={26} />
           </Pressable>
         </View>
       </View>

@@ -12,7 +12,7 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          options={{ headerShown: false }}
+          options={{ headerShown: false, gestureEnabled: false }}
           name="SignIn"
           component={SignInScreen}
         />

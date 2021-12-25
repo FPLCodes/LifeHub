@@ -15,9 +15,8 @@ const SignInScreen = ({ navigation }) => {
       .createUserWithEmailAndPassword(email, password)
       .then((userCredentials) => {
         const user = userCredentials.user;
-        console.log(user.email);
-        navigation.navigate("SignIn");
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+        navigation.navigate("SignIn");
       })
       .catch((error) => {
         console.log(error.code);
@@ -33,9 +32,20 @@ const SignInScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle={"dark-content"} />
-      <View style={{ flex: 1, marginVertical: 85, alignSelf: "stretch" }}>
+      <View
+        style={{
+          flex: 1,
+          marginTop: 75,
+          marginBottom: 60,
+          alignSelf: "stretch",
+        }}
+      >
         <View
-          style={{ alignSelf: "flex-start", marginBottom: 65, paddingLeft: 10 }}
+          style={{
+            alignSelf: "flex-start",
+            marginBottom: 120,
+            paddingLeft: 10,
+          }}
         >
           <Pressable onPress={() => navigation.navigate("SignIn")}>
             <Icon
@@ -50,7 +60,7 @@ const SignInScreen = ({ navigation }) => {
           Sign up for LifeHub
         </Text>
       </View>
-      <View style={{ flex: 3, alignSelf: "stretch", paddingHorizontal: 40 }}>
+      <View style={{ flex: 3, alignSelf: "stretch", paddingHorizontal: 30 }}>
         <Text>Email</Text>
         <TextInput
           style={error === "email" ? styles.invalidInput : styles.input}

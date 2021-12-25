@@ -13,75 +13,6 @@ import { Icon } from "react-native-elements";
 import * as Haptics from "expo-haptics";
 import { auth } from "../firebase";
 
-const styles = StyleSheet.create({
-  containerLight: {
-    flex: 1,
-    paddingBottom: 50,
-    backgroundColor: "white",
-    paddingHorizontal: 8,
-  },
-  containerDark: {
-    flex: 1,
-    paddingBottom: 50,
-    backgroundColor: "#2b3342",
-    paddingHorizontal: 8,
-  },
-  topBar: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  titleLight: {
-    marginLeft: 5,
-    marginBottom: 8,
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "black",
-  },
-  titleDark: {
-    marginLeft: 5,
-    marginBottom: 8,
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "white",
-  },
-  itemLight: {
-    flexDirection: "row",
-    backgroundColor: "#e3e1e1",
-    justifyContent: "space-between",
-    marginTop: 6,
-    borderRadius: 6,
-    minHeight: 50,
-  },
-  itemDark: {
-    flexDirection: "row",
-    backgroundColor: "#4c5464",
-    justifyContent: "space-between",
-    marginTop: 6,
-    borderRadius: 6,
-    minHeight: 50,
-  },
-  taskLight: {
-    fontSize: 18,
-    paddingLeft: 8,
-    textAlign: "left",
-    color: "black",
-  },
-  taskDark: {
-    fontSize: 18,
-    paddingLeft: 8,
-    textAlign: "left",
-    color: "white",
-  },
-  addBtn: {
-    padding: 10,
-    paddingHorizontal: 14,
-    backgroundColor: "powderblue",
-    borderTopRightRadius: 6,
-    borderBottomRightRadius: 6,
-  },
-});
-
 const ToDo = ({ navigation }) => {
   const [text, onChangeText] = useState("");
   const [data, setData] = useState([
@@ -181,10 +112,7 @@ const ToDo = ({ navigation }) => {
         </View>
       </View>
       <List tasks={data} isDark={isDark} />
-      <Pressable
-        onPress={signOut}
-        style={{ padding: 15, backgroundColor: "silver", marginTop: 10 }}
-      >
+      <Pressable onPress={signOut} style={styles.signOutBtn}>
         <Text style={{ textAlign: "center" }}>Sign out</Text>
       </Pressable>
     </View>
@@ -192,3 +120,78 @@ const ToDo = ({ navigation }) => {
 };
 
 export default ToDo;
+
+const styles = StyleSheet.create({
+  containerLight: {
+    flex: 1,
+    paddingBottom: 50,
+    backgroundColor: "white",
+    paddingHorizontal: 8,
+  },
+  containerDark: {
+    flex: 1,
+    paddingBottom: 50,
+    backgroundColor: "#2b3342",
+    paddingHorizontal: 8,
+  },
+  topBar: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  titleLight: {
+    marginLeft: 5,
+    marginBottom: 8,
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "black",
+  },
+  titleDark: {
+    marginLeft: 5,
+    marginBottom: 8,
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "white",
+  },
+  itemLight: {
+    flexDirection: "row",
+    backgroundColor: "#e3e1e1",
+    justifyContent: "space-between",
+    marginTop: 6,
+    borderRadius: 6,
+    minHeight: 50,
+  },
+  itemDark: {
+    flexDirection: "row",
+    backgroundColor: "#4c5464",
+    justifyContent: "space-between",
+    marginTop: 6,
+    borderRadius: 6,
+    minHeight: 50,
+  },
+  taskLight: {
+    fontSize: 18,
+    paddingLeft: 8,
+    textAlign: "left",
+    color: "black",
+  },
+  taskDark: {
+    fontSize: 18,
+    paddingLeft: 8,
+    textAlign: "left",
+    color: "white",
+  },
+  addBtn: {
+    padding: 10,
+    paddingHorizontal: 14,
+    backgroundColor: "powderblue",
+    borderTopRightRadius: 6,
+    borderBottomRightRadius: 6,
+  },
+  signOutBtn: {
+    paddingVertical: 15,
+    backgroundColor: "lightcoral",
+    marginTop: 15,
+    borderRadius: 6,
+  },
+});

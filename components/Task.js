@@ -1,6 +1,59 @@
 import React, { useEffect, useState } from "react";
 import { Text, View, StyleSheet } from "react-native";
 
+const Task = (props) => {
+  if (!props.taskComplete)
+    return (
+      <View>
+        {props.task.date || props.task.tags ? (
+          <Text style={props.isDark ? styles.taskDark : styles.taskLight}>
+            {props.task.key}
+          </Text>
+        ) : (
+          <Text style={props.isDark ? styles.planeTaskDark : styles.planeTask}>
+            {props.task.key}
+          </Text>
+        )}
+        {props.task.date || props.task.tags ? (
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "flex-end",
+            }}
+          >
+            {props.task.date ? (
+              <View style={styles.tag}>
+                <Text style={styles.tagText}>{props.task.date}</Text>
+              </View>
+            ) : (
+              <View></View>
+            )}
+            {props.task.tags ? (
+              <View style={styles.tag}>
+                <Text style={styles.tagText}>{props.task.tags}</Text>
+              </View>
+            ) : (
+              <View></View>
+            )}
+          </View>
+        ) : (
+          <View></View>
+        )}
+      </View>
+    );
+  else
+    return (
+      <Text
+        style={
+          props.isDark ? styles.taskCompleteDark : styles.taskCompleteLight
+        }
+      >
+        {props.task.key}
+      </Text>
+    );
+};
+export default Task;
+
 const styles = StyleSheet.create({
   taskLight: {
     fontSize: 16,
@@ -66,56 +119,3 @@ const styles = StyleSheet.create({
     textDecorationStyle: "solid",
   },
 });
-
-const Task = (props) => {
-  if (!props.taskComplete)
-    return (
-      <View>
-        {props.task.date || props.task.tags ? (
-          <Text style={props.isDark ? styles.taskDark : styles.taskLight}>
-            {props.task.key}
-          </Text>
-        ) : (
-          <Text style={props.isDark ? styles.planeTaskDark : styles.planeTask}>
-            {props.task.key}
-          </Text>
-        )}
-        {props.task.date || props.task.tags ? (
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "flex-end",
-            }}
-          >
-            {props.task.date ? (
-              <View style={styles.tag}>
-                <Text style={styles.tagText}>{props.task.date}</Text>
-              </View>
-            ) : (
-              <View></View>
-            )}
-            {props.task.tags ? (
-              <View style={styles.tag}>
-                <Text style={styles.tagText}>{props.task.tags}</Text>
-              </View>
-            ) : (
-              <View></View>
-            )}
-          </View>
-        ) : (
-          <View></View>
-        )}
-      </View>
-    );
-  else
-    return (
-      <Text
-        style={
-          props.isDark ? styles.taskCompleteDark : styles.taskCompleteLight
-        }
-      >
-        {props.task.key}
-      </Text>
-    );
-};
-export default Task;

@@ -13,128 +13,6 @@ import { Icon } from "react-native-elements";
 import * as Haptics from "expo-haptics";
 import Task from "./Task.js";
 
-const styles = StyleSheet.create({
-  toDoLight: {
-    marginTop: 20,
-    marginBottom: 5,
-    fontSize: 20,
-    color: "black",
-  },
-  toDoDark: {
-    marginTop: 20,
-    marginBottom: 5,
-    fontSize: 20,
-    color: "white",
-  },
-  completedLight: {
-    paddingVertical: 12,
-    fontSize: 20,
-    marginBottom: -10,
-    color: "black",
-  },
-  completedDark: {
-    paddingVertical: 12,
-    fontSize: 20,
-    marginBottom: -10,
-    color: "white",
-  },
-  itemLight: {
-    flexDirection: "row",
-    backgroundColor: "#e3e1e1",
-    justifyContent: "space-between",
-    borderRadius: 6,
-    minHeight: 50,
-  },
-  itemDark: {
-    flexDirection: "row",
-    backgroundColor: "#4c5464",
-    justifyContent: "space-between",
-    borderRadius: 6,
-    minHeight: 50,
-  },
-  incompletedBtnLight: {
-    backgroundColor: "#e3e1e1",
-    borderRadius: 50,
-    padding: 10,
-    borderColor: "gray",
-    borderWidth: 2,
-  },
-  incompletedBtnDark: {
-    backgroundColor: "#4c5464",
-    borderRadius: 50,
-    padding: 10,
-    borderColor: "gray",
-    borderWidth: 2,
-  },
-  completedBtnLight: {
-    backgroundColor: "lightblue",
-    borderRadius: 50,
-    padding: 10,
-    borderColor: "gray",
-    borderWidth: 2,
-  },
-  completedBtnDark: {
-    backgroundColor: "lightblue",
-    borderRadius: 50,
-    padding: 10,
-    borderColor: "gray",
-    borderWidth: 2,
-  },
-  unselectedTag: {
-    backgroundColor: "lightslategrey",
-    padding: 10,
-    paddingHorizontal: 20,
-    borderRadius: 6,
-  },
-  selectedTag: {
-    backgroundColor: "#515f6d",
-    padding: 10,
-    paddingHorizontal: 20,
-    borderRadius: 6,
-  },
-  doneBtn: {
-    backgroundColor: "lightsteelblue",
-    marginTop: 15,
-    padding: 10,
-    paddingHorizontal: 15,
-    borderRadius: 10,
-    alignSelf: "stretch",
-  },
-  taskModal: {
-    flex: 1,
-    backgroundColor: "aliceblue",
-    justifyContent: "center",
-    alignItems: "stretch",
-    paddingHorizontal: 6,
-    paddingBottom: 30,
-  },
-  taskModalDark: {
-    flex: 1,
-    backgroundColor: "#525f6d",
-    justifyContent: "center",
-    alignItems: "stretch",
-    paddingHorizontal: 6,
-    paddingBottom: 30,
-  },
-  modalContainer: {
-    backgroundColor: "slategray",
-    paddingVertical: 20,
-    paddingHorizontal: 8,
-    marginHorizontal: 2,
-    borderRadius: 6,
-  },
-  taskEditInput: {
-    backgroundColor: "lightgrey",
-    alignSelf: "stretch",
-    paddingVertical: 10,
-    paddingHorizontal: 8,
-    marginBottom: 20,
-    marginHorizontal: 2,
-    fontSize: 16,
-    borderRadius: 6,
-  },
-});
-
 const List = (props) => {
   const [data, setData] = useState([...props.tasks]);
   const [isEditing, setIsEditing] = useState(false);
@@ -430,3 +308,125 @@ const List = (props) => {
 };
 
 export default List;
+
+const styles = StyleSheet.create({
+  toDoLight: {
+    marginTop: 20,
+    marginBottom: 5,
+    fontSize: 20,
+    color: "black",
+  },
+  toDoDark: {
+    marginTop: 20,
+    marginBottom: 5,
+    fontSize: 20,
+    color: "white",
+  },
+  completedLight: {
+    paddingVertical: 12,
+    fontSize: 20,
+    marginBottom: -10,
+    color: "black",
+  },
+  completedDark: {
+    paddingVertical: 12,
+    fontSize: 20,
+    marginBottom: -10,
+    color: "white",
+  },
+  itemLight: {
+    flexDirection: "row",
+    backgroundColor: "#e3e1e1",
+    justifyContent: "space-between",
+    borderRadius: 6,
+    minHeight: 50,
+  },
+  itemDark: {
+    flexDirection: "row",
+    backgroundColor: "#4c5464",
+    justifyContent: "space-between",
+    borderRadius: 6,
+    minHeight: 50,
+  },
+  incompletedBtnLight: {
+    backgroundColor: "#e3e1e1",
+    borderRadius: 50,
+    padding: 10,
+    borderColor: "gray",
+    borderWidth: 2,
+  },
+  incompletedBtnDark: {
+    backgroundColor: "#4c5464",
+    borderRadius: 50,
+    padding: 10,
+    borderColor: "gray",
+    borderWidth: 2,
+  },
+  completedBtnLight: {
+    backgroundColor: "lightblue",
+    borderRadius: 50,
+    padding: 10,
+    borderColor: "gray",
+    borderWidth: 2,
+  },
+  completedBtnDark: {
+    backgroundColor: "lightblue",
+    borderRadius: 50,
+    padding: 10,
+    borderColor: "gray",
+    borderWidth: 2,
+  },
+  unselectedTag: {
+    backgroundColor: "lightslategrey",
+    padding: 10,
+    paddingHorizontal: 20,
+    borderRadius: 6,
+  },
+  selectedTag: {
+    backgroundColor: "#515f6d",
+    padding: 10,
+    paddingHorizontal: 20,
+    borderRadius: 6,
+  },
+  doneBtn: {
+    backgroundColor: "lightsteelblue",
+    marginTop: 15,
+    padding: 10,
+    paddingHorizontal: 15,
+    borderRadius: 10,
+    alignSelf: "stretch",
+  },
+  taskModal: {
+    flex: 1,
+    backgroundColor: "aliceblue",
+    justifyContent: "center",
+    alignItems: "stretch",
+    paddingHorizontal: 6,
+    paddingBottom: 30,
+  },
+  taskModalDark: {
+    flex: 1,
+    backgroundColor: "#525f6d",
+    justifyContent: "center",
+    alignItems: "stretch",
+    paddingHorizontal: 6,
+    paddingBottom: 30,
+  },
+  modalContainer: {
+    backgroundColor: "slategray",
+    paddingVertical: 20,
+    paddingHorizontal: 8,
+    marginHorizontal: 2,
+    borderRadius: 6,
+  },
+  taskEditInput: {
+    backgroundColor: "lightgrey",
+    alignSelf: "stretch",
+    paddingVertical: 10,
+    paddingHorizontal: 8,
+    marginBottom: 20,
+    marginHorizontal: 2,
+    fontSize: 16,
+    borderRadius: 6,
+  },
+});

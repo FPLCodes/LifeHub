@@ -20,16 +20,15 @@ const SignInScreen = ({ navigation }) => {
   }, []);
 
   const signIn = () => {
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     auth
       .signInWithEmailAndPassword(email, password)
       .then((userCredentials) => {
         const user = userCredentials.user;
         navigation.replace("Todo");
-        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       })
       .catch((error) => {
         console.log(error.code);
-        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
         if (error.code === "auth/invalid-email") setError("email");
         else if (
           error.code === "auth/wrong-password" ||
@@ -51,7 +50,7 @@ const SignInScreen = ({ navigation }) => {
           <Text style={styles.HUB}>Hub</Text>
         </View>
       </View>
-      <View style={{ flex: 3, alignSelf: "stretch", paddingHorizontal: 40 }}>
+      <View style={{ flex: 3, alignSelf: "stretch", paddingHorizontal: 30 }}>
         <Text>Email</Text>
         <TextInput
           style={error === "email" ? styles.invalidInput : styles.input}
@@ -83,7 +82,7 @@ const SignInScreen = ({ navigation }) => {
             Sign in
           </Text>
         </Pressable>
-        <Pressable onPress={signUp} style={{ marginTop: 10 }}>
+        <Pressable onPress={signUp} style={{ marginTop: 12 }}>
           <Text style={{ textAlign: "right", color: "steelblue" }}>
             Create account
           </Text>

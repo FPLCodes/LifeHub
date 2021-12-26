@@ -1,8 +1,16 @@
 import React, { useState } from "react";
-import { Pressable, StyleSheet, Text, View, StatusBar } from "react-native";
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  StatusBar,
+  Platform,
+} from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import * as Haptics from "expo-haptics";
 import { Icon } from "react-native-elements";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import { auth, db } from "../firebase";
 import { doc, setDoc } from "firebase/firestore";
 
@@ -14,6 +22,13 @@ const SignInScreen = ({ navigation }) => {
   const [first, setFirst] = useState("");
   const [last, setLast] = useState("");
   const [username, setUsername] = useState("");
+  const [date, setDate] = useState(new Date());
+  const [gender, setGender] = useState("Male");
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setDate(currentDate);
+  };
 
   const signUp = () => {
     if (password !== confirmPass) setError("confirmPass");
@@ -26,6 +41,7 @@ const SignInScreen = ({ navigation }) => {
             username: username,
             firstName: first,
             lastName: last,
+            birthdate: date,
           });
           Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
           navigation.navigate("Todo");
@@ -49,14 +65,13 @@ const SignInScreen = ({ navigation }) => {
         style={{
           flex: 1,
           marginTop: 65,
-          marginBottom: 30,
           alignSelf: "stretch",
         }}
       >
         <View
           style={{
             alignSelf: "flex-start",
-            marginBottom: 70,
+            marginBottom: 30,
             paddingLeft: 10,
           }}
         >
@@ -73,7 +88,7 @@ const SignInScreen = ({ navigation }) => {
           Sign up for LifeHub
         </Text>
       </View>
-      <View style={{ flex: 4, alignSelf: "stretch", paddingHorizontal: 30 }}>
+      <View style={{ flex: 5, alignSelf: "stretch", paddingHorizontal: 30 }}>
         {/*------------- Name ------------*/}
         <View
           style={{
@@ -108,6 +123,42 @@ const SignInScreen = ({ navigation }) => {
           value={username}
           onChangeText={(text) => setUsername(text)}
         />
+        {/*------------- Birthdate ------------*/}
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-around",
+            marginTop: 10,
+          }}
+        >
+          <View style={{ width: "50%", paddingRight: 15 }}>
+            <Text>Birthdate</Text>
+            <View
+              style={{
+                backgroundColor: "silver",
+                padding: 6,
+                marginVertical: 3,
+                borderRadius: 6,
+              }}
+            >
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={date}
+                mode="date"
+                onChange={onChange}
+                is24Hour={true}
+                display="default"
+                style={{ marginRight: 15 }}
+              />
+            </View>
+          </View>
+          <View style={{ width: "50%", paddingLeft: 15 }}>
+            <Text>Gender</Text>
+            <Pressable onPress={() => setOpen(true)} style={styles.input}>
+              <Text>{gender}</Text>
+            </Pressable>
+          </View>
+        </View>
         {/*------------- Email ------------*/}
         <Text style={{ marginTop: 10 }}>Email</Text>
         <TextInput

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -11,7 +11,8 @@ import {
 import List from "../components/List";
 import { Icon } from "react-native-elements";
 import * as Haptics from "expo-haptics";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 const ToDo = ({ navigation }) => {
   const [text, onChangeText] = useState("");
@@ -49,6 +50,7 @@ const ToDo = ({ navigation }) => {
     },
   ]);
   const [isDark, setDark] = useState(false);
+  const [user, setUser] = useState("");
 
   const addTask = () => {
     if (text !== "")
@@ -77,13 +79,22 @@ const ToDo = ({ navigation }) => {
     });
   };
 
+  useEffect(async () => {
+    const userRef = doc(db, "users", auth.currentUser?.uid);
+    const userSnap = await getDoc(userRef);
+
+    if (userSnap.exists()) {
+      setUser(userSnap.data());
+    }
+  }, []);
+
   return (
     <View style={isDark ? styles.containerDark : styles.containerLight}>
       <StatusBar barStyle={isDark ? "light-content" : "dark-content"} />
       <View style={{ marginTop: 100 }}>
         <View style={styles.topBar}>
           <Text style={isDark ? styles.titleDark : styles.titleLight}>
-            Welcome {auth.currentUser?.email}
+            Welcome {user.username}
           </Text>
           <View style={{ flexDirection: "row" }}>
             <Switch

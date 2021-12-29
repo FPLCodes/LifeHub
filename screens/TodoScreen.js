@@ -7,6 +7,7 @@ import {
   Pressable,
   Switch,
   StatusBar,
+  Modal,
 } from "react-native";
 import List from "../components/List";
 import { Icon } from "react-native-elements";
@@ -19,21 +20,39 @@ const ToDo = ({ navigation }) => {
   const [data, setData] = useState([
     {
       id: 1,
-      key: "A very long task example lmao idk what else to write oopsie",
+      key: "Swipe left to delete task",
       date: "Today",
       tags: "Home",
       completed: false,
     },
-    { id: 2, key: "Task 2", date: "Today", tags: "Home", completed: true },
+    {
+      id: 2,
+      key: "Tap the left button to undo completion",
+      date: "Today",
+      tags: "Home",
+      completed: true,
+    },
     {
       id: 3,
-      key: "Task 3",
+      key: "Tap to edit",
       date: "Tomorrow",
       tags: "School",
       completed: false,
     },
-    { id: 4, key: "Task 4", date: "", tags: "", completed: false },
-    { id: 5, key: "Task 5", date: "Sunday", tags: "", completed: false },
+    {
+      id: 4,
+      key: "Press button on the left to complete task",
+      date: "",
+      tags: "",
+      completed: false,
+    },
+    {
+      id: 5,
+      key: "Tap the top right icon for more settings",
+      date: "Sunday",
+      tags: "",
+      completed: false,
+    },
     {
       id: 6,
       key: "Task 6",
@@ -49,8 +68,10 @@ const ToDo = ({ navigation }) => {
       completed: true,
     },
   ]);
+  const [state, setState] = useState({});
   const [isDark, setDark] = useState(false);
   const [user, setUser] = useState("");
+  const [showProfile, setShowProfile] = useState(false);
 
   const addTask = () => {
     if (text !== "")
@@ -74,38 +95,75 @@ const ToDo = ({ navigation }) => {
 
   const signOut = () => {
     auth.signOut().then(() => {
-      navigation.replace("SignIn");
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      navigation.replace("SignIn");
     });
+    setShowProfile(false);
   };
 
-  useEffect(async () => {
-    const userRef = doc(db, "users", auth.currentUser?.uid);
-    const userSnap = await getDoc(userRef);
+  useEffect(() => {
+    const fetchData = async () => {
+      const userRef = doc(db, "users", auth.currentUser?.uid);
+      const userSnap = await getDoc(userRef);
+      if (userSnap.exists()) {
+        setUser(userSnap.data());
+      }
+    };
+    fetchData().catch((err) => console.log(err));
 
-    if (userSnap.exists()) {
-      setUser(userSnap.data());
-    }
+    return () => {
+      setState({});
+    };
   }, []);
 
   return (
     <View style={isDark ? styles.containerDark : styles.containerLight}>
       <StatusBar barStyle={isDark ? "light-content" : "dark-content"} />
-      <View style={{ marginTop: 100 }}>
-        <View style={styles.topBar}>
-          <Text style={isDark ? styles.titleDark : styles.titleLight}>
-            Welcome {user.username}
-          </Text>
-          <View style={{ flexDirection: "row" }}>
+      <Modal animationType="slide" visible={showProfile}>
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "stretch" }}
+        >
+          <View style={{ borderWidth: 1, marginHorizontal: 8 }}>
+            <Pressable
+              onPress={() => {
+                setShowProfile(false);
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+              }}
+            >
+              <Icon
+                name="x"
+                type="feather"
+                size={32}
+                style={{ alignSelf: "flex-end" }}
+              />
+            </Pressable>
             <Switch
-              style={{ marginRight: 5, marginTop: 2 }}
               trackColor={{ false: "#767577", true: "#81b0ff" }}
               thumbColor={isDark ? "#f5dd4b" : "#f4f3f4"}
               ios_backgroundColor="#3e3e3e"
               onValueChange={toggleSwitch}
               value={isDark}
             />
+            <Pressable onPress={signOut} style={styles.signOutBtn}>
+              <Text style={{ textAlign: "center" }}>Sign out</Text>
+            </Pressable>
           </View>
+        </View>
+      </Modal>
+      <View style={{ marginTop: 100 }}>
+        <View style={styles.topBar}>
+          <Text style={isDark ? styles.titleDark : styles.titleLight}>
+            Welcome {user.username}
+          </Text>
+          <Pressable
+            style={styles.profileIcon}
+            onPress={() => {
+              setShowProfile(true);
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+            }}
+          >
+            <Icon name="user" type="feather" size={32} />
+          </Pressable>
         </View>
         <View style={isDark ? styles.itemDark : styles.itemLight}>
           <View style={{ flex: 1, justifyContent: "center" }}>
@@ -123,9 +181,6 @@ const ToDo = ({ navigation }) => {
         </View>
       </View>
       <List tasks={data} isDark={isDark} />
-      <Pressable onPress={signOut} style={styles.signOutBtn}>
-        <Text style={{ textAlign: "center" }}>Sign out</Text>
-      </Pressable>
     </View>
   );
 };
@@ -204,5 +259,13 @@ const styles = StyleSheet.create({
     backgroundColor: "lightcoral",
     marginTop: 15,
     borderRadius: 6,
+  },
+  profileIcon: {
+    borderWidth: 2,
+    borderColor: "black",
+    borderRadius: 20,
+    backgroundColor: "lightgray",
+    marginRight: 5,
+    marginTop: -5,
   },
 });

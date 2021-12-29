@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Pressable, StyleSheet, Text, View, StatusBar } from "react-native";
-import { TextInput } from "react-native-gesture-handler";
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  StatusBar,
+  TextInput,
+} from "react-native";
+import { Icon } from "react-native-elements";
 import { auth } from "../firebase";
 import * as Haptics from "expo-haptics";
 
@@ -52,26 +59,42 @@ const SignInScreen = ({ navigation }) => {
       </View>
       <View style={{ flex: 3, alignSelf: "stretch", paddingHorizontal: 30 }}>
         <Text>Email</Text>
-        <TextInput
-          style={error === "email" ? styles.invalidInput : styles.input}
-          placeholder="johnsmith123@gmail.com"
-          value={email}
-          keyboardType={"email-address"}
-          onChangeText={(text) => setEmail(text)}
-        />
+        <View style={error === "email" ? styles.invalidInput : styles.input}>
+          <Icon
+            name="mail"
+            type="feather"
+            size={24}
+            color="gray"
+            style={{ marginRight: 6 }}
+          />
+          <TextInput
+            placeholder="johnsmith123@gmail.com"
+            value={email}
+            keyboardType={"email-address"}
+            onChangeText={(text) => setEmail(text)}
+          />
+        </View>
         {error === "email" && (
           <Text style={{ marginBottom: 5, color: "tomato" }}>
             Invalid email
           </Text>
         )}
         <Text style={{ marginTop: 10 }}>Password</Text>
-        <TextInput
-          style={error === "password" ? styles.invalidInput : styles.input}
-          placeholder="********"
-          value={password}
-          secureTextEntry={true}
-          onChangeText={(text) => setPassword(text)}
-        />
+        <View style={error === "email" ? styles.invalidInput : styles.input}>
+          <Icon
+            name="lock"
+            type="feather"
+            size={24}
+            color="gray"
+            style={{ marginRight: 6 }}
+          />
+          <TextInput
+            placeholder="********"
+            value={password}
+            secureTextEntry={true}
+            onChangeText={(text) => setPassword(text)}
+          />
+        </View>
         {error === "password" && (
           <Text style={{ marginBottom: 5, color: "tomato" }}>
             Incorrect password
@@ -107,6 +130,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
   input: {
+    flexDirection: "row",
     backgroundColor: "silver",
     padding: 10,
     marginVertical: 5,
@@ -114,6 +138,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
   invalidInput: {
+    flexDirection: "row",
     backgroundColor: "silver",
     padding: 10,
     marginVertical: 5,

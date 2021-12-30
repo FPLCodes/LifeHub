@@ -72,6 +72,7 @@ const SignInScreen = ({ navigation }) => {
             value={email}
             keyboardType={"email-address"}
             onChangeText={(text) => setEmail(text)}
+            style={{ flexGrow: 1, alignSelf: "stretch" }}
           />
         </View>
         {error === "email" && (
@@ -93,6 +94,7 @@ const SignInScreen = ({ navigation }) => {
             value={password}
             secureTextEntry={true}
             onChangeText={(text) => setPassword(text)}
+            style={{ flexGrow: 1, alignSelf: "stretch" }}
           />
         </View>
         {error === "password" && (

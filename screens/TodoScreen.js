@@ -120,32 +120,80 @@ const ToDo = ({ navigation }) => {
     <View style={isDark ? styles.containerDark : styles.containerLight}>
       <StatusBar barStyle={isDark ? "light-content" : "dark-content"} />
       <Modal animationType="slide" visible={showProfile}>
-        <View
-          style={{ flex: 1, justifyContent: "center", alignItems: "stretch" }}
-        >
-          <View style={{ borderWidth: 1, marginHorizontal: 8 }}>
-            <Pressable
-              onPress={() => {
-                setShowProfile(false);
-                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+        <View style={isDark ? styles.profileModalDark : styles.profileModal}>
+          <View style={isDark ? styles.modalBoxDark : styles.modalBox}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                marginBottom: 10,
+              }}
+            >
+              <Switch
+                trackColor={{ false: "#767577", true: "#81b0ff" }}
+                thumbColor={isDark ? "#f5dd4b" : "#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch}
+                value={isDark}
+                style={{ margin: 3 }}
+              />
+              <Pressable
+                onPress={() => {
+                  setShowProfile(false);
+                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                }}
+              >
+                <Icon
+                  name="x"
+                  type="feather"
+                  size={32}
+                  color={isDark && "white"}
+                  style={{ alignSelf: "flex-end" }}
+                />
+              </Pressable>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                marginLeft: 10,
               }}
             >
               <Icon
-                name="x"
+                name="user"
                 type="feather"
-                size={32}
-                style={{ alignSelf: "flex-end" }}
+                size={42}
+                style={{
+                  borderWidth: 2,
+                  borderRadius: 25,
+                  marginTop: 25,
+                  marginBottom: 30,
+                  marginRight: 10,
+                  backgroundColor: "silver",
+                }}
               />
-            </Pressable>
-            <Switch
-              trackColor={{ false: "#767577", true: "#81b0ff" }}
-              thumbColor={isDark ? "#f5dd4b" : "#f4f3f4"}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch}
-              value={isDark}
-            />
+              <Text style={isDark ? styles.usernameDark : styles.username}>
+                {user.username}
+              </Text>
+            </View>
+            <View style={isDark ? styles.textWrapDark : styles.textWrap}>
+              <Text
+                style={isDark ? styles.profileTextDark : styles.profileText}
+              >
+                Name: {user.firstName} {user.lastName}
+              </Text>
+            </View>
+            <View style={isDark ? styles.textWrapDark : styles.textWrap}>
+              <Text
+                style={isDark ? styles.profileTextDark : styles.profileText}
+              >
+                Email: {auth.currentUser?.email}
+              </Text>
+            </View>
             <Pressable onPress={signOut} style={styles.signOutBtn}>
-              <Text style={{ textAlign: "center" }}>Sign out</Text>
+              <Text style={{ textAlign: "center", fontSize: 16 }}>
+                Sign out
+              </Text>
             </Pressable>
           </View>
         </View>
@@ -191,7 +239,6 @@ const styles = StyleSheet.create({
   containerLight: {
     flex: 1,
     paddingBottom: 50,
-    backgroundColor: "white",
     paddingHorizontal: 8,
   },
   containerDark: {
@@ -257,7 +304,7 @@ const styles = StyleSheet.create({
   signOutBtn: {
     paddingVertical: 15,
     backgroundColor: "lightcoral",
-    marginTop: 15,
+    marginTop: 35,
     borderRadius: 6,
   },
   profileIcon: {
@@ -266,6 +313,65 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: "lightgray",
     marginRight: 5,
-    marginTop: -5,
+    marginTop: -12,
+  },
+  profileModal: {
+    flex: 1,
+    alignItems: "stretch",
+  },
+  profileModalDark: {
+    flex: 1,
+    alignItems: "stretch",
+    backgroundColor: "#2b3342",
+  },
+  modalBox: {
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "silver",
+    marginTop: 75,
+    marginHorizontal: 8,
+    padding: 5,
+    backgroundColor: "aliceblue",
+  },
+  modalBoxDark: {
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "#525f6d",
+    marginTop: 75,
+    marginHorizontal: 8,
+    padding: 5,
+    backgroundColor: "#525f6d",
+  },
+  textWrap: {
+    backgroundColor: "lightgray",
+    borderRadius: 5,
+    marginTop: 12,
+    padding: 5,
+  },
+  textWrapDark: {
+    backgroundColor: "slategray",
+    borderRadius: 5,
+    marginTop: 12,
+    padding: 5,
+  },
+  profileText: {
+    fontSize: 18,
+    padding: 5,
+  },
+  profileTextDark: {
+    fontSize: 18,
+    padding: 5,
+    color: "white",
+  },
+  username: {
+    fontSize: 22,
+    fontWeight: "bold",
+    marginTop: 5,
+  },
+  usernameDark: {
+    fontSize: 22,
+    fontWeight: "bold",
+    marginTop: 5,
+    color: "white",
   },
 });

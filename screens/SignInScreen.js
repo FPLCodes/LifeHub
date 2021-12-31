@@ -19,7 +19,7 @@ const SignInScreen = ({ navigation }) => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        navigation.navigate("Todo");
+        navigation.navigate("Home");
       }
     });
 

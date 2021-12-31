@@ -39,7 +39,7 @@ const SignInScreen = ({ navigation }) => {
             lastName: last,
           });
           resetData();
-          navigation.navigate("Todo");
+          navigation.navigate("Home");
         })
         .catch((error) => {
           console.log(error.code);

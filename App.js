@@ -2,9 +2,12 @@ import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import TodoScreen from "./screens/TodoScreen";
 import SignInScreen from "./screens/SignInScreen";
 import SignUpScreen from "./screens/SignUpScreen";
+import TodoScreen from "./screens/TodoScreen";
+import HabitScreen from "./screens/HabitScreen";
+import FinanceScreen from "./screens/FinanceScreen";
+import PomodoroScreen from "./screens/PomodoroScreen";
 import { Icon } from "react-native-elements";
 
 const Stack = createNativeStackNavigator();
@@ -17,10 +20,19 @@ function HomeTabs() {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
-          if (route.name === "Todo") {
-            iconName = "list";
-          } else if (route.name === "Settings") {
-            iconName = focused ? "ios-list-box" : "ios-list";
+          switch (route.name) {
+            case "Todo":
+              iconName = "list";
+              break;
+            case "Habit":
+              iconName = "calendar";
+              break;
+            case "Finance":
+              iconName = "dollar-sign";
+              break;
+            case "Pomodoro":
+              iconName = "clock";
+              break;
           }
 
           // You can return any component that you like here!
@@ -29,13 +41,33 @@ function HomeTabs() {
           );
         },
         tabBarActiveTintColor: "royalblue",
-        tabBarInactiveTintColor: "gray",
+        tabBarInactiveTintColor: "silver",
+        tabBarShowLabel: false,
       })}
     >
       <Tab.Screen
-        options={{ headerShown: false, gestureEnabled: false }}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+          tabBarBadge: 4,
+        }}
         name="Todo"
         component={TodoScreen}
+      />
+      <Tab.Screen
+        options={{ headerShown: false, gestureEnabled: false }}
+        name="Habit"
+        component={HabitScreen}
+      />
+      <Tab.Screen
+        options={{ headerShown: false, gestureEnabled: false }}
+        name="Finance"
+        component={FinanceScreen}
+      />
+      <Tab.Screen
+        options={{ headerShown: false, gestureEnabled: false }}
+        name="Pomodoro"
+        component={PomodoroScreen}
       />
     </Tab.Navigator>
   );

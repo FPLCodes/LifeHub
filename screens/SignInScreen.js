@@ -32,7 +32,7 @@ const SignInScreen = ({ navigation }) => {
       .signInWithEmailAndPassword(email, password)
       .then((userCredentials) => {
         const user = userCredentials.user;
-        navigation.replace("Todo");
+        navigation.replace("Home");
       })
       .catch((error) => {
         console.log(error.code);

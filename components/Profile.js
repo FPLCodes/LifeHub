@@ -81,11 +81,11 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   profileText: {
-    fontSize: 18,
+    fontSize: 16,
     padding: 5,
   },
   profileTextDark: {
-    fontSize: 18,
+    fontSize: 16,
     padding: 5,
     color: "white",
   },

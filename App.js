@@ -1,11 +1,23 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import {
+  createNativeStackNavigator,
+  createBottomTabNavigator,
+} from "@react-navigation/native-stack";
 import TodoScreen from "./screens/TodoScreen";
 import SignInScreen from "./screens/SignInScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
+function HomeTabs() {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Todo" component={TodoScreen} />
+    </Tab.Navigator>
+  );
+}
 
 function App() {
   return (
@@ -26,8 +38,8 @@ function App() {
             headerShown: false,
             gestureEnabled: false,
           }}
-          name="Todo"
-          component={TodoScreen}
+          name="Home"
+          component={HomeTabs}
         />
       </Stack.Navigator>
     </NavigationContainer>

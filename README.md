@@ -9,7 +9,8 @@ A 4 in 1 productivity app for iOS & Android made with React Native. **(Still in 
 
 ## Features
 - Profile
-  - Users have their own profiles securely stored in firebase
+  - Users have their own profiles 
+  - Data securely stored in firebase
   
 - To-do list
   - Create tasks in a to-do list
@@ -22,7 +23,7 @@ A 4 in 1 productivity app for iOS & Android made with React Native. **(Still in 
 
 ## What the app looks like (very early stages)
 
--- Coming soon
+Coming soon
 
 ## Dependencies
 - react-native

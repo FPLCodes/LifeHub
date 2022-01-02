@@ -8,14 +8,6 @@ const Profile = (props) => {
   const user = props.user;
   const isDark = props.isDark;
 
-  const signOut = () => {
-    auth.signOut().then(() => {
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-      navigation.replace("SignIn");
-    });
-    setShowProfile(false);
-  };
-
   return (
     <View>
       <View
@@ -52,9 +44,6 @@ const Profile = (props) => {
           Email: {auth.currentUser?.email}
         </Text>
       </View>
-      <Pressable onPress={signOut} style={styles.signOutBtn}>
-        <Text style={{ textAlign: "center", fontSize: 16 }}>Sign out</Text>
-      </Pressable>
     </View>
   );
 };
@@ -62,12 +51,6 @@ const Profile = (props) => {
 export default Profile;
 
 const styles = StyleSheet.create({
-  signOutBtn: {
-    paddingVertical: 15,
-    backgroundColor: "lightcoral",
-    marginTop: 35,
-    borderRadius: 6,
-  },
   textWrap: {
     backgroundColor: "lightgray",
     borderRadius: 5,

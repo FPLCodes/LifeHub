@@ -10,17 +10,19 @@ import {
 import { Icon } from "react-native-elements";
 import { auth } from "../firebase";
 import * as Haptics from "expo-haptics";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const SignInScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         navigation.navigate("Home");
-      }
+      } else setLoading(false);
     });
 
     return unsubscribe;
@@ -28,13 +30,16 @@ const SignInScreen = ({ navigation }) => {
 
   const signIn = () => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    setLoading(true);
     auth
       .signInWithEmailAndPassword(email, password)
       .then((userCredentials) => {
         const user = userCredentials.user;
+        setLoading(false);
         navigation.replace("Home");
       })
       .catch((error) => {
+        setLoading(false);
         console.log(error.code);
         if (error.code === "auth/invalid-email") setError("email");
         else if (
@@ -51,13 +56,14 @@ const SignInScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle={"dark-content"} />
+      <Spinner visible={loading} />
       <View style={{ flex: 1, marginTop: 150 }}>
         <View style={{ flexDirection: "row" }}>
           <Text style={{ fontSize: 60, fontWeight: "bold" }}>Life</Text>
           <Text style={styles.HUB}>Hub</Text>
         </View>
       </View>
-      <View style={{ flex: 3, alignSelf: "stretch", paddingHorizontal: 30 }}>
+      <View style={{ flex: 3, alignSelf: "stretch", paddingHorizontal: 25 }}>
         <Text>Email</Text>
         <View style={error === "email" ? styles.invalidInput : styles.input}>
           <Icon

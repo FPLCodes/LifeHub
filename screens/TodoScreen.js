@@ -87,6 +87,16 @@ const ToDo = ({ navigation }) => {
     setDark((previousState) => !previousState);
   };
 
+  const signOut = () => {
+    auth
+      .signOut()
+      .then(() => {
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+        navigation.replace("Auth");
+      })
+      .catch((err) => console.log(err));
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const userRef = doc(db, "users", auth.currentUser?.uid);
@@ -139,6 +149,11 @@ const ToDo = ({ navigation }) => {
               </Pressable>
             </View>
             <Profile isDark={isDark} user={user} />
+            <Pressable onPress={signOut} style={styles.signOutBtn}>
+              <Text style={{ textAlign: "center", fontSize: 16 }}>
+                Sign out
+              </Text>
+            </Pressable>
           </View>
         </View>
       </Modal>
@@ -244,6 +259,12 @@ const styles = StyleSheet.create({
     backgroundColor: "powderblue",
     borderTopRightRadius: 6,
     borderBottomRightRadius: 6,
+  },
+  signOutBtn: {
+    paddingVertical: 15,
+    backgroundColor: "lightcoral",
+    marginTop: 35,
+    borderRadius: 6,
   },
   profileIcon: {
     borderWidth: 2,

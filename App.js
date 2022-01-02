@@ -10,8 +10,26 @@ import FinanceScreen from "./screens/FinanceScreen";
 import PomodoroScreen from "./screens/PomodoroScreen";
 import { Icon } from "react-native-elements";
 
+const RootStack = createNativeStackNavigator();
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
+function AuthStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        options={{ headerShown: false, gestureEnabled: false }}
+        name="SignIn"
+        component={SignInScreen}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="SignUp"
+        component={SignUpScreen}
+      />
+    </Stack.Navigator>
+  );
+}
 
 function HomeTabs() {
   return (
@@ -35,7 +53,6 @@ function HomeTabs() {
               break;
           }
 
-          // You can return any component that you like here!
           return (
             <Icon name={iconName} type="feather" size={size} color={color} />
           );
@@ -76,26 +93,18 @@ function HomeTabs() {
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
+      <RootStack.Navigator>
+        <RootStack.Screen
+          name="Auth"
+          component={AuthStack}
           options={{ headerShown: false, gestureEnabled: false }}
-          name="SignIn"
-          component={SignInScreen}
         />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="SignUp"
-          component={SignUpScreen}
-        />
-        <Stack.Screen
-          options={{
-            headerShown: false,
-            gestureEnabled: false,
-          }}
+        <RootStack.Screen
           name="Home"
           component={HomeTabs}
+          options={{ headerShown: false, gestureEnabled: false }}
         />
-      </Stack.Navigator>
+      </RootStack.Navigator>
     </NavigationContainer>
   );
 }

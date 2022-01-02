@@ -11,6 +11,7 @@ import { Icon } from "react-native-elements";
 import { auth } from "../firebase";
 import * as Haptics from "expo-haptics";
 import Spinner from "react-native-loading-spinner-overlay";
+import { Surface } from "@react-native-material/core";
 
 const SignInScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -108,11 +109,13 @@ const SignInScreen = ({ navigation }) => {
             Incorrect password
           </Text>
         )}
-        <Pressable onPress={signIn} style={styles.signInBtn}>
-          <Text style={{ textAlign: "center", fontSize: 16, color: "white" }}>
-            Sign in
-          </Text>
-        </Pressable>
+        <Surface elevation={1} style={{ marginTop: 15, borderRadius: 6 }}>
+          <Pressable onPress={signIn} style={styles.signInBtn}>
+            <Text style={{ textAlign: "center", fontSize: 16, color: "white" }}>
+              Sign in
+            </Text>
+          </Pressable>
+        </Surface>
         <Pressable onPress={signUp} style={{ marginTop: 12 }}>
           <Text style={{ textAlign: "right", color: "steelblue" }}>
             Create account
@@ -134,7 +137,6 @@ const styles = StyleSheet.create({
   signInBtn: {
     paddingVertical: 15,
     backgroundColor: "royalblue",
-    marginTop: 15,
     borderRadius: 6,
   },
   input: {

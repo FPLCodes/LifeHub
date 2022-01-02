@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Pressable, Switch } from "react-native";
 import { Icon } from "react-native-elements";
-import * as Haptics from "expo-haptics";
 import { auth } from "../firebase";
+import { Avatar } from "@react-native-material/core";
 
 const Profile = (props) => {
   const user = props.user;
@@ -17,18 +17,11 @@ const Profile = (props) => {
           marginLeft: 10,
         }}
       >
-        <Icon
-          name="user"
-          type="feather"
-          size={42}
-          style={{
-            borderWidth: 2,
-            borderRadius: 25,
-            marginTop: 25,
-            marginBottom: 30,
-            marginRight: 10,
-            backgroundColor: "silver",
-          }}
+        <Avatar
+          label={`${user.firstName} ${user.lastName}`}
+          autoColor
+          size={56}
+          style={{ marginRight: 10, marginVertical: 20 }}
         />
         <Text style={isDark ? styles.usernameDark : styles.username}>
           {user.username}

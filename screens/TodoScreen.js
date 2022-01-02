@@ -15,6 +15,7 @@ import { Icon } from "react-native-elements";
 import * as Haptics from "expo-haptics";
 import { auth, db } from "../firebase";
 import { doc, getDoc } from "firebase/firestore";
+import { Surface, Avatar } from "@react-native-material/core";
 
 const ToDo = ({ navigation }) => {
   const [text, onChangeText] = useState("");
@@ -163,16 +164,23 @@ const ToDo = ({ navigation }) => {
             Welcome {user.username}
           </Text>
           <Pressable
-            style={styles.profileIcon}
+            style={{ marginTop: -10, marginBottom: 5 }}
             onPress={() => {
               setShowProfile(true);
               Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
             }}
           >
-            <Icon name="user" type="feather" size={34} />
+            <Avatar
+              label={`${user.firstName} ${user.lastName}`}
+              autoColor
+              size={48}
+            />
           </Pressable>
         </View>
-        <View style={isDark ? styles.itemDark : styles.itemLight}>
+        <Surface
+          elevation={1}
+          style={isDark ? styles.itemDark : styles.itemLight}
+        >
           <View style={{ flex: 1, justifyContent: "center" }}>
             <TextInput
               style={isDark ? styles.taskDark : styles.taskLight}
@@ -185,7 +193,7 @@ const ToDo = ({ navigation }) => {
           <Pressable onPress={addTask} style={styles.addBtn}>
             <Icon type="feather" name="plus" size={26} />
           </Pressable>
-        </View>
+        </Surface>
       </View>
       <List tasks={data} isDark={isDark} />
     </View>

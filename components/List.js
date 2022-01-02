@@ -12,6 +12,7 @@ import Swipeable from "react-native-gesture-handler/Swipeable";
 import { Icon } from "react-native-elements";
 import * as Haptics from "expo-haptics";
 import Task from "./Task.js";
+import { Surface } from "@react-native-material/core";
 
 const List = (props) => {
   const [data, setData] = useState([...props.tasks]);
@@ -108,7 +109,7 @@ const List = (props) => {
           }}
         >
           <View style={props.isDark ? styles.taskModalDark : styles.taskModal}>
-            <View style={styles.modalContainer}>
+            <Surface elevation={3} style={styles.modalContainer}>
               <TextInput
                 defaultValue={task.key}
                 onChangeText={onChangeText}
@@ -128,6 +129,7 @@ const List = (props) => {
                     flexDirection: "row",
                     alignSelf: "stretch",
                     justifyContent: "space-evenly",
+                    paddingVertical: 4,
                   }}
                 >
                   <Pressable
@@ -158,8 +160,12 @@ const List = (props) => {
                   </Pressable>
                 </View>
               </View>
-            </View>
-            <Pressable onPress={() => doneEditing()} style={styles.doneBtn}>
+            </Surface>
+            <Pressable
+              onPress={() => doneEditing()}
+              style={styles.doneBtn}
+              elevation={1}
+            >
               <Text style={{ textAlign: "center", fontSize: 16 }}>Done</Text>
             </Pressable>
           </View>
@@ -169,71 +175,68 @@ const List = (props) => {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         >
-          <View>
-            {data.map((task) => {
-              if (!task.completed)
-                return (
-                  <View
-                    style={{
-                      backgroundColor: "#e3e1e1",
-                      flex: 1,
-                      borderRadius: 6,
-                      marginVertical: 3,
-                    }}
-                    key={task.id}
-                  >
-                    <Swipeable renderRightActions={() => deleteButton(task.id)}>
-                      <Pressable
-                        style={
-                          props.isDark ? styles.itemDark : styles.itemLight
-                        }
-                        onPress={() => editTask(task)}
+          {data.map((task) => {
+            if (!task.completed)
+              return (
+                <Surface
+                  elevation={1}
+                  style={{
+                    backgroundColor: "#e3e1e1",
+                    flex: 1,
+                    borderRadius: 6,
+                    marginVertical: 3,
+                  }}
+                  key={task.id}
+                >
+                  <Swipeable renderRightActions={() => deleteButton(task.id)}>
+                    <Pressable
+                      style={props.isDark ? styles.itemDark : styles.itemLight}
+                      onPress={() => editTask(task)}
+                    >
+                      <View
+                        style={{
+                          flex: 1,
+                          flexDirection: "row",
+                          alignItems: "stretch",
+                        }}
                       >
                         <View
                           style={{
-                            flex: 1,
-                            flexDirection: "row",
-                            alignItems: "stretch",
+                            width: 50,
+                            alignItems: "center",
+                            justifyContent: "center",
                           }}
                         >
-                          <View
-                            style={{
-                              width: 50,
-                              alignItems: "center",
-                              justifyContent: "center",
+                          <Pressable
+                            style={
+                              props.isDark
+                                ? styles.incompletedBtnDark
+                                : styles.incompletedBtnLight
+                            }
+                            onPress={() => completeTask(task)}
+                            hitSlop={{
+                              top: 10,
+                              bottom: 10,
+                              left: 5,
+                              right: 5,
                             }}
-                          >
-                            <Pressable
-                              style={
-                                props.isDark
-                                  ? styles.incompletedBtnDark
-                                  : styles.incompletedBtnLight
-                              }
-                              onPress={() => completeTask(task)}
-                              hitSlop={{
-                                top: 10,
-                                bottom: 10,
-                                left: 5,
-                                right: 5,
-                              }}
-                            ></Pressable>
-                          </View>
-                          <View style={{ flex: 1 }}>
-                            <Pressable onPress={() => editTask(task)}>
-                              <Task
-                                task={task}
-                                isDark={props.isDark}
-                                taskComplete={task.completed}
-                              />
-                            </Pressable>
-                          </View>
+                          ></Pressable>
                         </View>
-                      </Pressable>
-                    </Swipeable>
-                  </View>
-                );
-            })}
-          </View>
+                        <View style={{ flex: 1 }}>
+                          <Pressable onPress={() => editTask(task)}>
+                            <Task
+                              task={task}
+                              isDark={props.isDark}
+                              taskComplete={task.completed}
+                            />
+                          </Pressable>
+                        </View>
+                      </View>
+                    </Pressable>
+                  </Swipeable>
+                </Surface>
+              );
+          })}
         </ScrollView>
       </View>
       {data.find((task) => task.completed) && (
@@ -251,7 +254,8 @@ const List = (props) => {
             {data.map((task) => {
               if (task.completed)
                 return (
-                  <View
+                  <Surface
+                    elevation={1}
                     style={{
                       backgroundColor: "#e3e1e1",
                       flex: 1,
@@ -297,7 +301,7 @@ const List = (props) => {
                         </View>
                       </View>
                     </Swipeable>
-                  </View>
+                  </Surface>
                 );
             })}
           </ScrollView>
@@ -391,8 +395,7 @@ const styles = StyleSheet.create({
   doneBtn: {
     backgroundColor: "lightsteelblue",
     marginTop: 15,
-    padding: 10,
-    paddingHorizontal: 15,
+    padding: 15,
     borderRadius: 10,
     alignSelf: "stretch",
   },
@@ -422,7 +425,7 @@ const styles = StyleSheet.create({
   taskEditInput: {
     backgroundColor: "lightgrey",
     alignSelf: "stretch",
-    paddingVertical: 10,
+    paddingVertical: 15,
     paddingHorizontal: 8,
     marginBottom: 20,
     marginHorizontal: 2,

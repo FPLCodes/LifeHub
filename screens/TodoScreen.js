@@ -105,6 +105,12 @@ const ToDo = ({ navigation }) => {
       if (userSnap.exists()) {
         setUser(userSnap.data());
       }
+
+      const tasksRef = doc(db, "todos", auth.currentUser?.uid);
+      const tasksSnap = await getDoc(tasksRef);
+      if (tasksSnap.exists()) {
+        console.log(tasksSnap.data()[1]);
+      }
     };
     fetchData().catch((err) => console.log(err));
 

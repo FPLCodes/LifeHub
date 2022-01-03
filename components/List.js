@@ -91,7 +91,7 @@ const List = (props) => {
   };
 
   useEffect(() => {
-    setData([...props.tasks]);
+    setData(props.tasks);
   }, [props]);
 
   return (

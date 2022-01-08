@@ -14,7 +14,7 @@ import Profile from "../components/Profile";
 import { Icon } from "react-native-elements";
 import * as Haptics from "expo-haptics";
 import { auth, db } from "../firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { Surface, Avatar } from "@react-native-material/core";
 
 const ToDo = ({ navigation }) => {
@@ -68,7 +68,7 @@ const ToDo = ({ navigation }) => {
   const [user, setUser] = useState("");
   const [showProfile, setShowProfile] = useState(false);
 
-  const addTask = () => {
+  const addTask = async () => {
     if (text !== "")
       setData([
         ...data,
@@ -82,6 +82,15 @@ const ToDo = ({ navigation }) => {
       ]);
     onChangeText("");
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    await updateDoc(doc(db, "todos", auth.currentUser?.uid), {
+      2: {
+        completed: "false",
+        date: new Date(),
+        id: 2,
+        key: text,
+        tags: "Home",
+      },
+    });
   };
 
   const toggleSwitch = () => {
@@ -109,7 +118,10 @@ const ToDo = ({ navigation }) => {
       const tasksRef = doc(db, "todos", auth.currentUser?.uid);
       const tasksSnap = await getDoc(tasksRef);
       if (tasksSnap.exists()) {
-        console.log(tasksSnap.data()[1]);
+        const data = tasksSnap.data();
+        const arr = [];
+        data.forEach((task) => arr.push(task));
+        console.log(arr);
       }
     };
     fetchData().catch((err) => console.log(err));

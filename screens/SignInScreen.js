@@ -58,7 +58,7 @@ const SignInScreen = ({ navigation }) => {
     <View style={styles.container}>
       <StatusBar barStyle={"dark-content"} />
       <Spinner visible={loading} />
-      <View style={{ flex: 1, marginTop: 150 }}>
+      <View style={{ flex: 1, marginTop: 100 }}>
         <View style={{ flexDirection: "row" }}>
           <Text style={{ fontSize: 60, fontWeight: "bold" }}>Life</Text>
           <Text style={styles.HUB}>Hub</Text>

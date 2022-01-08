@@ -41,7 +41,6 @@ const SignInScreen = ({ navigation }) => {
       })
       .catch((error) => {
         setLoading(false);
-        console.log(error.code);
         if (error.code === "auth/invalid-email") setError("email");
         else if (
           error.code === "auth/wrong-password" ||

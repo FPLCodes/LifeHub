@@ -13,21 +13,53 @@ import { Icon } from "react-native-elements";
 import * as Haptics from "expo-haptics";
 import Task from "./Task.js";
 import { Surface } from "@react-native-material/core";
+import { auth, db } from "../firebase";
+import {
+  doc,
+  onSnapshot,
+  getDoc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+} from "firebase/firestore";
 
 const List = (props) => {
-  const [data, setData] = useState([...props.tasks]);
+  const [state, setState] = useState({});
+  const [data, setData] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
-  const [task, setTask] = useState(data[0]);
+  const [task, setTask] = useState("");
   const [text, onChangeText] = useState("");
   const [tag, setTag] = useState("");
 
-  const completeTask = (task) => {
-    let arr = [];
-    data.forEach((item) => {
-      if (item.id === task.id) item.completed = !item.completed;
-      arr.push(item);
+  useEffect(() => {
+    const tasksSub = onSnapshot(
+      doc(db, "todos", auth.currentUser?.uid),
+      (snapshot) => {
+        const data = snapshot.data();
+        setData(data.tasks);
+        setTask(data[0]);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    return () => {
+      setState({});
+    };
+  }, []);
+
+  const completeTask = async (task) => {
+    await updateDoc(doc(db, "todos", auth.currentUser?.uid), {
+      tasks: arrayRemove(task),
     });
-    setData(arr);
+
+    task.completed = !task.completed;
+
+    await updateDoc(doc(db, "todos", auth.currentUser?.uid), {
+      tasks: arrayUnion(task),
+    });
+
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
   };
 
@@ -90,10 +122,6 @@ const List = (props) => {
     );
   };
 
-  useEffect(() => {
-    setData(props.tasks);
-  }, [props]);
-
   return (
     <View style={{ flex: 5 }}>
       <View>
@@ -111,7 +139,7 @@ const List = (props) => {
           <View style={props.isDark ? styles.taskModalDark : styles.taskModal}>
             <Surface elevation={3} style={styles.modalContainer}>
               <TextInput
-                defaultValue={task.key}
+                defaultValue={""}
                 onChangeText={onChangeText}
                 style={styles.taskEditInput}
               />

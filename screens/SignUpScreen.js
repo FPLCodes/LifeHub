@@ -42,7 +42,6 @@ const SignInScreen = ({ navigation }) => {
           navigation.navigate("Home");
         })
         .catch((error) => {
-          console.log(error.code);
           Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
           if (error.code === "auth/invalid-email") setError("email");
           else if (

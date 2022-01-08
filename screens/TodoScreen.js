@@ -14,55 +14,18 @@ import Profile from "../components/Profile";
 import { Icon } from "react-native-elements";
 import * as Haptics from "expo-haptics";
 import { auth, db } from "../firebase";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import {
+  doc,
+  onSnapshot,
+  getDoc,
+  updateDoc,
+  arrayUnion,
+} from "firebase/firestore";
 import { Surface, Avatar } from "@react-native-material/core";
 
 const ToDo = ({ navigation }) => {
   const [text, onChangeText] = useState("");
-  const [data, setData] = useState([
-    {
-      id: 1,
-      key: "Swipe left to delete task",
-      date: "Today",
-      tags: "Home",
-      completed: false,
-    },
-    {
-      id: 2,
-      key: "Tap the left button to undo completion",
-      date: "Today",
-      tags: "Home",
-      completed: true,
-    },
-    {
-      id: 3,
-      key: "Tap to edit",
-      date: "Tomorrow",
-      tags: "School",
-      completed: false,
-    },
-    {
-      id: 4,
-      key: "Press button on the left to complete task",
-      date: "",
-      tags: "",
-      completed: false,
-    },
-    {
-      id: 5,
-      key: "Tap the top right icon for more settings",
-      date: "Sunday",
-      tags: "",
-      completed: false,
-    },
-    {
-      id: 6,
-      key: "Enjoy the app!",
-      date: "Yesterday",
-      tags: "School",
-      completed: true,
-    },
-  ]);
+  const [data, setData] = useState([]);
   const [state, setState] = useState({});
   const [isDark, setDark] = useState(false);
   const [user, setUser] = useState("");
@@ -80,17 +43,19 @@ const ToDo = ({ navigation }) => {
           completed: false,
         },
       ]);
-    onChangeText("");
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+
+    const len = data.length;
+    const id = len ? len + 1 : 1;
     await updateDoc(doc(db, "todos", auth.currentUser?.uid), {
-      2: {
-        completed: "false",
-        date: new Date(),
-        id: 2,
+      tasks: arrayUnion({
+        completed: false,
+        id: id,
         key: text,
-        tags: "Home",
-      },
+        tags: "",
+      }),
     });
+    onChangeText("");
   };
 
   const toggleSwitch = () => {
@@ -113,15 +78,6 @@ const ToDo = ({ navigation }) => {
       const userSnap = await getDoc(userRef);
       if (userSnap.exists()) {
         setUser(userSnap.data());
-      }
-
-      const tasksRef = doc(db, "todos", auth.currentUser?.uid);
-      const tasksSnap = await getDoc(tasksRef);
-      if (tasksSnap.exists()) {
-        const data = tasksSnap.data();
-        const arr = [];
-        data.forEach((task) => arr.push(task));
-        console.log(arr);
       }
     };
     fetchData().catch((err) => console.log(err));

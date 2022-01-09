@@ -54,15 +54,16 @@ const List = (props) => {
     });
 
     task.completed = !task.completed;
-
     await updateDoc(doc(db, "todos", auth.currentUser?.uid), {
       tasks: arrayUnion(task),
     });
   };
 
-  const removeItem = (id) => {
-    setData(data.filter((item) => item.id !== id));
+  const removeItem = async (task) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    await updateDoc(doc(db, "todos", auth.currentUser?.uid), {
+      tasks: arrayRemove(task),
+    });
   };
 
   const editTask = (task) => {
@@ -73,29 +74,40 @@ const List = (props) => {
   };
 
   const changeTag = (tag) => {
-    let arr = data;
-    if (arr[task.id - 1].tags === tag) {
-      arr[task.id - 1].tags = "";
+    const tempTask = task;
+    console.log(data[task.id]);
+    if (task.tags === tag) {
+      tempTask.tags = "";
       setTag("");
     } else {
-      arr[task.id - 1].tags = tag;
       setTag(tag);
+      tempTask.tags = tag;
     }
-    setData(arr);
+    setTask(tempTask);
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
   };
 
-  const doneEditing = () => {
-    if (text) {
-      let arr = data;
-      arr[task.id - 1].key = text;
-      setData(arr);
-      setIsEditing(!isEditing);
-    } else setIsEditing(!isEditing);
+  const doneEditing = async () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    if (text || data[task.id].tags !== tag) {
+      await updateDoc(doc(db, "todos", auth.currentUser?.uid), {
+        tasks: arrayRemove(task),
+      });
+      if (text) task.key = text;
+      task.tags = tag;
+      await updateDoc(doc(db, "todos", auth.currentUser?.uid), {
+        tasks: arrayUnion(task),
+      }).then(() => {
+        setIsEditing(!isEditing);
+        setTask("");
+      });
+    } else {
+      setIsEditing(!isEditing);
+      setTask("");
+    }
   };
 
-  const deleteButton = (id) => {
+  const deleteButton = (task) => {
     return (
       <View
         style={{
@@ -111,7 +123,7 @@ const List = (props) => {
             flex: 1,
             justifyContent: "center",
           }}
-          onPress={() => removeItem(id)}
+          onPress={() => removeItem(task)}
         >
           <Icon name="trash-2" type="feather" size={28} />
         </Pressable>
@@ -136,7 +148,7 @@ const List = (props) => {
           <View style={props.isDark ? styles.taskModalDark : styles.taskModal}>
             <Surface elevation={3} style={styles.modalContainer}>
               <TextInput
-                defaultValue={""}
+                defaultValue={task ? task.key : ""}
                 onChangeText={onChangeText}
                 style={styles.taskEditInput}
               />
@@ -213,7 +225,7 @@ const List = (props) => {
                   }}
                   key={task.id}
                 >
-                  <Swipeable renderRightActions={() => deleteButton(task.id)}>
+                  <Swipeable renderRightActions={() => deleteButton(task)}>
                     <Pressable
                       style={props.isDark ? styles.itemDark : styles.itemLight}
                       onPress={() => editTask(task)}
@@ -289,7 +301,7 @@ const List = (props) => {
                     }}
                     key={task.id}
                   >
-                    <Swipeable renderRightActions={() => deleteButton(task.id)}>
+                    <Swipeable renderRightActions={() => deleteButton(task)}>
                       <View
                         style={
                           props.isDark ? styles.itemDark : styles.itemLight

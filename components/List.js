@@ -17,7 +17,6 @@ import { auth, db } from "../firebase";
 import {
   doc,
   onSnapshot,
-  getDoc,
   updateDoc,
   arrayUnion,
   arrayRemove,
@@ -43,13 +42,13 @@ const List = (props) => {
         console.log(error);
       }
     );
-
     return () => {
       setState({});
     };
   }, []);
 
   const completeTask = async (task) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     await updateDoc(doc(db, "todos", auth.currentUser?.uid), {
       tasks: arrayRemove(task),
     });
@@ -59,8 +58,6 @@ const List = (props) => {
     await updateDoc(doc(db, "todos", auth.currentUser?.uid), {
       tasks: arrayUnion(task),
     });
-
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
   };
 
   const removeItem = (id) => {

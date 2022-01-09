@@ -14,48 +14,34 @@ import Profile from "../components/Profile";
 import { Icon } from "react-native-elements";
 import * as Haptics from "expo-haptics";
 import { auth, db } from "../firebase";
-import {
-  doc,
-  onSnapshot,
-  getDoc,
-  updateDoc,
-  arrayUnion,
-} from "firebase/firestore";
+import { doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { Surface, Avatar } from "@react-native-material/core";
 
 const ToDo = ({ navigation }) => {
   const [text, onChangeText] = useState("");
   const [data, setData] = useState([]);
+  const [ID, setID] = useState(0);
   const [state, setState] = useState({});
   const [isDark, setDark] = useState(false);
   const [user, setUser] = useState("");
   const [showProfile, setShowProfile] = useState(false);
 
   const addTask = async () => {
-    if (text !== "")
-      setData([
-        ...data,
-        {
-          id: data.length + 1,
-          key: text,
-          date: "",
-          tags: "",
-          completed: false,
-        },
-      ]);
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-
-    const len = data.length;
-    const id = len ? len + 1 : 1;
-    await updateDoc(doc(db, "todos", auth.currentUser?.uid), {
-      tasks: arrayUnion({
-        completed: false,
-        id: id,
-        key: text,
-        tags: "",
-      }),
-    });
+    const task = text;
     onChangeText("");
+
+    if (text !== "") {
+      await updateDoc(doc(db, "todos", auth.currentUser?.uid), {
+        tasks: arrayUnion({
+          completed: false,
+          id: ID + 1,
+          key: task,
+          tags: "",
+        }),
+      });
+      setID(ID + 1);
+    }
   };
 
   const toggleSwitch = () => {
@@ -78,6 +64,12 @@ const ToDo = ({ navigation }) => {
       const userSnap = await getDoc(userRef);
       if (userSnap.exists()) {
         setUser(userSnap.data());
+      }
+
+      const tasksRef = doc(db, "todos", auth.currentUser?.uid);
+      const tasksSnap = await getDoc(tasksRef);
+      if (tasksSnap.exists()) {
+        setID(tasksSnap.data().tasks.length);
       }
     };
     fetchData().catch((err) => console.log(err));
@@ -169,7 +161,7 @@ const ToDo = ({ navigation }) => {
           </Pressable>
         </Surface>
       </View>
-      <List tasks={data} isDark={isDark} />
+      <List isDark={isDark} />
     </View>
   );
 };

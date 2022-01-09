@@ -25,9 +25,9 @@ import {
 const List = (props) => {
   const [state, setState] = useState({});
   const [data, setData] = useState([]);
-  const [isEditing, setIsEditing] = useState(false);
   const [task, setTask] = useState("");
   const [text, onChangeText] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
   const [tag, setTag] = useState("");
 
   useEffect(() => {

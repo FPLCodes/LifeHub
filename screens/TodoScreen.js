@@ -82,7 +82,7 @@ const ToDo = ({ navigation }) => {
   return (
     <View style={isDark ? styles.containerDark : styles.containerLight}>
       <StatusBar barStyle={isDark ? "light-content" : "dark-content"} />
-      <Modal animationType="slide" visible={showProfile}>
+      <Modal animationType="slide" visible={showProfile} transparent={true}>
         <View style={isDark ? styles.profileModalDark : styles.profileModal}>
           <View style={isDark ? styles.modalBoxDark : styles.modalBox}>
             <View
@@ -251,17 +251,19 @@ const styles = StyleSheet.create({
   profileModal: {
     flex: 1,
     alignItems: "stretch",
+    backgroundColor: "aliceblue",
+    marginTop: 145,
   },
   profileModalDark: {
     flex: 1,
     alignItems: "stretch",
     backgroundColor: "#2b3342",
+    marginTop: 145,
   },
   modalBox: {
     borderWidth: 1,
     borderRadius: 5,
     borderColor: "silver",
-    marginTop: 75,
     marginHorizontal: 8,
     padding: 8,
     backgroundColor: "aliceblue",
@@ -270,7 +272,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     borderColor: "#525f6d",
-    marginTop: 75,
     marginHorizontal: 8,
     padding: 8,
     backgroundColor: "#525f6d",

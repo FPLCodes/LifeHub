@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
   signOutBtn: {
     paddingVertical: 15,
     backgroundColor: "lightcoral",
-    marginTop: 35,
+    marginTop: 50,
     borderRadius: 6,
   },
   profileIcon: {

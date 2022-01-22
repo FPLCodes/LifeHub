@@ -12,7 +12,6 @@ const Profile = (props) => {
     <View>
       <View
         style={{
-          flexDirection: "row",
           alignItems: "center",
           marginLeft: 10,
         }}
@@ -20,7 +19,7 @@ const Profile = (props) => {
         <Avatar
           label={`${user.firstName} ${user.lastName}`}
           autoColor
-          size={56}
+          size={75}
           style={{ marginRight: 10, marginVertical: 20 }}
         />
         <Text style={isDark ? styles.usernameDark : styles.username}>
@@ -48,13 +47,13 @@ const styles = StyleSheet.create({
     backgroundColor: "lightgray",
     borderRadius: 5,
     marginTop: 12,
-    padding: 5,
+    padding: 10,
   },
   textWrapDark: {
     backgroundColor: "slategray",
     borderRadius: 5,
     marginTop: 12,
-    padding: 5,
+    padding: 10,
   },
   profileText: {
     fontSize: 16,
@@ -68,12 +67,12 @@ const styles = StyleSheet.create({
   username: {
     fontSize: 22,
     fontWeight: "bold",
-    marginTop: 5,
+    marginBottom: 25,
   },
   usernameDark: {
     fontSize: 22,
     fontWeight: "bold",
-    marginTop: 5,
+    marginBottom: 25,
     color: "white",
   },
 });
